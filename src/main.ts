@@ -1,33 +1,76 @@
 import { App, Editor, FileManager, MarkdownView, Modal, Notice, Plugin, TAbstractFile, TFile, TFolder } from 'obsidian';
 import { DEFAULT_SETTINGS, ImageManagerSettings, ImageManagerSettingTab } from "./settings";
+import { supportedFileExtensions, getLinkedImages } from 'lib/FileParser';
 
 // Remember to rename these classes and interfaces!
 export default class ImageManager extends Plugin {
 	settings: ImageManagerSettings;
-	knownImages: [];
-	knownLinks: [];
+	knownImages: TFile[] = [];
+	linkedImages: string[] = [];
 
 	async onload() {
 		await this.loadSettings();
 
-
-		this.app.workspace.onLayoutReady(() => {
+		this.app.workspace.onLayoutReady(async () => {
+			//TODO only handle NOT deleted files
 			const files: TFile[] = this.app.vault.getFiles();
-			// filter all files for images
-			// filter all files for .md and canvas files (bases aswell?)
+			//TODO handle bases, canvas and excalidraw files
+			const documentFiles: TFile[] = files.filter((file: TFile) => {
+				return (["md"].includes(file.extension));
+			});
 
-			// files.forEach(function(file: TFile) {
-			// 	if (file.extension === "png") {
-			// 		console.log(file.name);
-			// 	}
-			// });
+			const app: App = this.app;
+			// make this multithreaded (in a JS way)
+			const testFiles: TFile[] = documentFiles.filter(value => {
+				return value.basename === "SEO Research - google, bing" || value.basename === "High performance queue";
+			});
 
-			const abstractFile: TAbstractFile | null = this.app.vault.getAbstractFileByPath(files[0]?.path ?? "");
-			console.log(abstractFile);
+			const startTime = performance.now();
+			// for (const file of testFiles) {
+			// 	const linkedImages: string[] = await getLinkedImages(file, app);
+			// 	//TODO we are doing this for every file. Could be reduce this?
+			// 	this.knownLinks = [...new Set([...this.knownLinks, ...linkedImages])];
+			// }
 
-			if (files[0]) {
-				this.app.fileManager.trashFile(files[0]);
+			for (const file of documentFiles) {
+				const linkedImages: string[] = await getLinkedImages(file, app);
+				//TODO we are doing this for every file. Could be reduce this?
+				this.linkedImages = [...new Set([...this.linkedImages, ...linkedImages])];
 			}
+
+			performance.measure("Parsing complete", {
+				start: startTime,
+				end: performance.now(),
+				detail: {
+					devtools: {
+						dataType: "track-entry",
+						track: "File Parsing",
+						trackGroup: "Image Manager",
+						color: "tertiary-dark",
+						properties: [
+							["Filter Type", "Gaussian Blur"],
+						],
+						tooltipText: "Files parsed succesfully",
+					}
+				}
+			});
+
+			console.log(this.linkedImages);
+
+			this.knownImages = files.filter(function(file: TFile) {
+				return supportedFileExtensions.includes(file.extension);
+			});
+
+			console.log(this.knownImages);
+			//console.log(this.knownImages.filter((image) => !this.linkedImages.includes(image.basename)));
+			console.log(this.knownImages.filter((image) => !this.linkedImages.includes(image.name)));
+
+			//TODO check result. if we have got more images then linkedImages
+			// we need to check that we parsed this corretly
+
+			// if (files[0]) {
+			// 	this.app.fileManager.trashFile(files[0]);
+			// }
 		});
 
 
