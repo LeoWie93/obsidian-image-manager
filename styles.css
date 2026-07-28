@@ -1,60 +1,112 @@
 .entry-grid-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr));
-	gap: 1rem;
-	padding: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+	gap: 1.25rem;
+	padding: 1rem 0;
 	text-align: center;
 }
 
 .entry-grid-container .entry-card {
-	max-width: 600px;
-	max-height: 400px;
-	padding: 1rem;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	background: #f9f9f9;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 1.25rem;
+	border: var(--border-width, 1px) solid var(--background-modifier-border);
+	border-radius: var(--radius-m, 8px);
+	background-color: var(--background-secondary);
+	transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.entry-grid-container .entry-card:hover {
+	border-color: var(--interactive-accent);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
+}
+
+.entry-grid-container .entry-card h3 {
+	margin: 0 0 0.25rem 0;
+	font-size: var(--font-ui-medium, 1.1rem);
+	color: var(--text-normal);
+	word-break: break-word;
+}
+
+.entry-grid-container .entry-card p {
+	margin: 0 0 1rem 0;
+	font-size: var(--font-ui-smaller, 0.85rem);
+	color: var(--text-muted);
+	word-break: break-all;
 }
 
 .entry-grid-container .entry-card img {
-	max-height: 200px;
-	align-items: center;
+	max-height: 180px;
+	width: 100%;
+	object-fit: contain;
+	border-radius: var(--radius-s, 4px);
+	background-color: var(--background-primary);
+	padding: 0.5rem;
+	margin-bottom: 1rem;
+}
+
+.entry-grid-container .entry-card .button-group {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: center;
+	margin-top: auto;
 }
 
 .entry-grid-container .entry-card .button-group button {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	flex: 1;
+	padding: 0.5rem 1rem;
+	font-weight: 500;
+	border-radius: var(--radius-s, 4px);
+	cursor: pointer;
+	transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .entry-grid-container .entry-card .button-group .open-image-button {
-	color: white;
-	background: blue;
+	color: var(--text-on-accent);
+	background-color: var(--interactive-accent);
+	border: none;
+}
+
+.entry-grid-container .entry-card .button-group .open-image-button:hover:not(:disabled) {
+	background-color: var(--interactive-accent-hover);
 }
 
 .entry-grid-container .entry-card .button-group .delete-image-button {
-	margin-left: 10px;
-	color: white;
-	background: red;
+	color: var(--text-on-accent, #fff);
+	background-color: var(--background-modifier-error);
+	border: none;
+}
+
+.entry-grid-container .entry-card .button-group .delete-image-button:hover:not(:disabled) {
+	background-color: var(--background-modifier-error-hover, #d32f2f);
+}
+
+.entry-grid-container .entry-card .button-group button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
 }
 
 .width_100 {
 	width: 100%;
 }
 
-
 .image-manager-loader-div {
 	text-align: center;
-	padding: 2rem;
+	padding: 2.5rem;
+	color: var(--text-muted);
 }
 
 .image-manager-loader-animation {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 6px;
-  width: 30px;
-  aspect-ratio: 4;
-  background: radial-gradient(circle closest-side, currentColor 90%, #0000) 0/calc(100%/3) 100% space;
-  clip-path: inset(0 100% 0 0);
-  animation: l1 1s steps(4) infinite;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 6px;
+	width: 30px;
+	aspect-ratio: 4;
+	background: radial-gradient(circle closest-side, currentColor 90%, #0000) 0/calc(100%/3) 100% space;
+	clip-path: inset(0 100% 0 0);
+	animation: l1 1s steps(4) infinite;
 }
 
 @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
