@@ -1,9 +1,9 @@
 {
 	"id": "dangling-image-manager",
 	"name": "Dangling Image Manager",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"minAppVersion": "0.16.0",
-	"description": "Find and delete dangling imagages with a simple ui.",
+	"description": "Find and delete unused/dangling/detached imagages with a simple ui.",
 	"author": "Leonardo Wiedemeier",
 	"authorUrl": "https://github.com/leowie93",
 	"fundingUrl": "https://github.com/leowie93",

@@ -11,7 +11,7 @@ The [TODO.md](https://github.com/LeoWie93/obsidian-dangling-image-manager/blob/m
 Command to open the UI: `Dangling Image Manager: open ui`
 
 ## Screenshots
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/e341b2f4-11c1-40be-83f1-572eb67ae9b1" />
+<img width="800" alt="image" src="https://github.com/LeoWie93/obsidian-dangling-image-manager/blob/master/assets/ui-example.png" />
 
 ## Source Code
 See [Github](https://github.com/LeoWie93/obsidian-dangling-image-manager)
