@@ -1,11 +1,26 @@
 import { TaskType } from "./Tasks";
 import * as logger from "../Logger";
 
-//TODO rewrite to use objects and not classes
+type QueueIdleListener = () => void;
+
 export class SyncTaskQueue {
-	queue: TaskType[] = [];
-	locked: boolean = false;
-	//TODO deadletter queue?
+	private queue: TaskType[] = [];
+	private locked: boolean = false;
+	private onEmptyCallbacks: QueueIdleListener[] = [];
+
+	isEmpty(): boolean {
+		return this.queue.length <= 0 && !this.locked;
+	}
+
+	waitForEmpty(): Promise<void> {
+		if (this.isEmpty()) {
+			return Promise.resolve();
+		}
+
+		return new Promise((resolve: QueueIdleListener) => {
+			this.onEmptyCallbacks.push(resolve);
+		});
+	}
 
 	enqueue(task: TaskType): void {
 		this.queue.push(task);
@@ -18,6 +33,9 @@ export class SyncTaskQueue {
 		}
 
 		if (this.queue.length === 0) {
+			this.onEmptyCallbacks.forEach((resolve: QueueIdleListener) => resolve());
+			this.onEmptyCallbacks = [];
+
 			return;
 		}
 
