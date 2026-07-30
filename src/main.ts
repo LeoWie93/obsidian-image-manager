@@ -190,18 +190,18 @@ class ManageModal extends Modal {
 			modal.classList.add("width_100");
 		}
 
-		const modalTitle: HTMLHeadingElement = document.createElement("h1");
+		const modalTitle: HTMLHeadingElement = document.createEl("h1");
 		modalTitle.setText("Image manager");
 		contentEl.appendChild(modalTitle);
 
 		if (!this.syncQueue.isEmpty()) {
-			const loadingContainer = document.createElement("div");
+			const loadingContainer: HTMLDivElement = document.createEl("div");
 			loadingContainer.classList.add("image-manager-loader-div");
 
-			const loadingText = document.createElement("h2");
+			const loadingText: HTMLHeadingElement = document.createEl("h2");
 			loadingText.setText("Indexing in process");
 
-			const loaderAnimation = document.createElement("span");
+			const loaderAnimation: HTMLSpanElement = document.createEl("span");
 			loaderAnimation.classList.add("image-manager-loader-animation");
 			loadingText.appendChild(loaderAnimation);
 
@@ -218,7 +218,7 @@ class ManageModal extends Modal {
 	buildModalContent() {
 		const { contentEl } = this;
 
-		this.entryContainer = document.createElement("div");
+		this.entryContainer = document.createEl("div");
 		this.entryContainer.classList.add("entry-grid-container");
 		contentEl.appendChild(this.entryContainer);
 
@@ -228,7 +228,7 @@ class ManageModal extends Modal {
 
 		if (danglingImages.length <= 0) {
 			console.debug("no dangling images");
-			const emptyInfo: HTMLHeadingElement = document.createElement("h2");
+			const emptyInfo: HTMLHeadingElement = document.createEl("h2");
 			emptyInfo.setText("The vault currently does not contain dangling images.");
 			contentEl.appendChild(emptyInfo);
 
@@ -239,34 +239,34 @@ class ManageModal extends Modal {
 
 		danglingImages.forEach((file: TFile) => {
 			console.debug("file iteration");
-			const entryCard = document.createElement("div");
+			const entryCard = document.createEl("div");
 			entryCard.classList.add("entry-card");
 			entryCard.dataset.filePath = file.path;
 
-			const name = document.createElement("h3");
+			const name = document.createEl("h3");
 			name.setText(file.basename);
 
-			const filePath = document.createElement("p");
+			const filePath = document.createEl("p");
 			filePath.setText(file.path);
 
-			const deleteButton = document.createElement("button");
+			const deleteButton = document.createEl("button");
 			deleteButton.type = "button";
 			deleteButton.classList.add("delete-image-button");
 			deleteButton.setText("Delete image");
 
-			const openButton = document.createElement("button");
+			const openButton = document.createEl("button");
 			openButton.type = "button";
 			openButton.classList.add("open-image-button");
 			openButton.setText("Open image");
 
-			const buttonGroup = document.createElement("div");
+			const buttonGroup = document.createEl("div");
 			buttonGroup.classList.add("button-group");
 			buttonGroup.appendChild(openButton);
 			buttonGroup.appendChild(deleteButton);
 
 			// Preview Image
 			const resourcePath = this.app.vault.getResourcePath(file);
-			const previewImage = document.createElement("img");
+			const previewImage = document.createEl("img");
 			previewImage.src = resourcePath;
 
 			entryCard.appendChild(name);
@@ -308,13 +308,13 @@ class ManageModal extends Modal {
 			return;
 		}
 
-		if (openButton && openButton instanceof HTMLButtonElement) {
+		if (openButton && openButton.instanceOf(HTMLButtonElement)) {
 			openButton.disabled = true;
 			logger.debug("grid-container", { message: "clicked open button" });
 			void this.app.workspace.getLeaf().openFile(file).then(() => this.close());
 		}
 
-		if (deleteButton && deleteButton instanceof HTMLButtonElement) {
+		if (deleteButton && deleteButton.instanceOf(HTMLButtonElement)) {
 			deleteButton.disabled = true;
 			logger.debug("grid-container", { message: "clicked delete button" });
 
@@ -325,7 +325,7 @@ class ManageModal extends Modal {
 					new Notice("File with name {" + file.name + "} deleted.");
 
 					if (this.entryContainer.children.length === 0) {
-						const emptyInfo = document.createElement("h2");
+						const emptyInfo = document.createEl("h2");
 						emptyInfo.setText("All cleaned up");
 						this.contentEl.appendChild(emptyInfo);
 					}
