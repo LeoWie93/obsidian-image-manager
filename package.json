@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-dangling-image-manager",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "Find and delete unused/dangling/detached images with a simple ui.",
 	"main": "main.js",
 	"type": "module",
